@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VBT Load Prescriber (Squat)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>VBT Load Prescriber (Squat)</h1>
+    <button id="resetBtn" class="btn secondary">Reset</button>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Enter 4 data points</h2>
+      <p class="muted">Load (kg) and mean bar velocity (m/s). The app fits a linear model: <code>Load = a · Velocity + b</code>.</p>
+      <div class="grid two">
+        <div class="muted label">Load (kg)</div>
+        <div class="muted label">Velocity (m/s)</div>
+
+        <input class="inp" inputmode="decimal" id="load0" value="40">
+        <input class="inp" inputmode="decimal" id="vel0" value="1.10">
+
+        <input class="inp" inputmode="decimal" id="load1" value="60">
+        <input class="inp" inputmode="decimal" id="vel1" value="0.90">
+
+        <input class="inp" inputmode="decimal" id="load2" value="80">
+        <input class="inp" inputmode="decimal" id="vel2" value="0.70">
+
+        <input class="inp" inputmode="decimal" id="load3" value="100">
+        <input class="inp" inputmode="decimal" id="vel3" value="0.50">
+      </div>
+
+      <div class="note"><span>ℹ️</span> Use average of 2–3 reps per point and maximal intent. If R² is low, re-measure.</div>
+
+      <div class="target">
+        <label for="targetV">Target velocity (m/s)</label>
+        <div class="row">
+          <input class="inp small" id="targetV" value="0.60" inputmode="decimal">
+          <input type="range" id="targetSlider" min="0.2" max="1.2" step="0.01" value="0.60">
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Results</h2>
+      <div class="grid two">
+        <div class="stat">
+          <div class="muted">Slope (a)</div>
+          <div class="big" id="slope">–</div>
+        </div>
+        <div class="stat">
+          <div class="muted">Intercept (b)</div>
+          <div class="big" id="intercept">–</div>
+        </div>
+        <div class="stat wide">
+          <div class="muted">R² (fit quality)</div>
+          <div class="big" id="r2">–</div>
+        </div>
+        <div class="stat wide">
+          <div class="muted">Predicted load @ <span id="tvLabel">0.60</span> m/s</div>
+          <div class="bigger" id="pred">– kg</div>
+          <div class="pills">
+            <div class="pill">Rounded 2.5 kg: <b id="pred25">–</b></div>
+            <div class="pill">Rounded 5 kg: <b id="pred5">–</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="zones">
+        <div class="muted small">Reference zones (mean velocity)</div>
+        <ul>
+          <li>Speed / Ballistic: ≥ 0.90 m/s</li>
+          <li>Speed–Strength: 0.70–0.85 m/s</li>
+          <li>Strength–Speed: 0.50–0.65 m/s</li>
+          <li>Max Strength: 0.30–0.45 m/s</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Load–Velocity Chart</h3>
+      <div class="chart-wrap">
+        <svg id="chart" width="100%" height="100%" viewBox="0 0 700 420" preserveAspectRatio="xMidYMid meet" aria-label="Load–Velocity chart"></svg>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot muted small">Model: Load = a · Velocity + b. Enter 4 points, then set a target velocity to get a recommended load.</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
